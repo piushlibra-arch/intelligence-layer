@@ -1,15 +1,16 @@
-from datetime import datetime, timezone, timedelta
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
-import uuid
+
+from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import HTTPException, status
 
+from app.models.event import EventType, ProcessingStatus, TradeEvent
+from app.models.session import SessionStatus, TradingSession
 from app.models.trader import TraderProfile
-from app.models.session import TradingSession, SessionStatus
-from app.models.event import TradeEvent, EventType, ProcessingStatus
 from app.scenarios import get_scenario
 from app.schemas.events import EventIngestRequest
+
 
 class ReplayService:
     @classmethod
@@ -48,7 +49,7 @@ class ReplayService:
                 await cls._seed_historical_sessions(db, trader, t_config)
 
         # 3. Create fresh new session for this replay
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         new_session = TradingSession(
             trader_id=trader.id,
             scenario_id=scenario_id,
@@ -75,7 +76,7 @@ class ReplayService:
         config
     ):
         """Seed realistic completed historical sessions to establish baseline"""
-        base_time = datetime.now(timezone.utc) - timedelta(days=config.historical_sessions_count + 2)
+        base_time = datetime.now(UTC) - timedelta(days=config.historical_sessions_count + 2)
 
         for i in range(config.historical_sessions_count):
             session_start = base_time + timedelta(days=i, hours=9, minutes=30)

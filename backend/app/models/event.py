@@ -1,10 +1,14 @@
-import uuid
-from datetime import datetime, timezone
-from decimal import Decimal
 import enum
-from sqlalchemy import String, Numeric, Boolean, DateTime, ForeignKey, Enum as SQLEnum, JSON, Index
+import uuid
+from datetime import UTC, datetime
+from decimal import Decimal
+
+from sqlalchemy import JSON, Boolean, DateTime, ForeignKey, Index, Numeric, String
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.database import Base
+
 
 class EventType(str, enum.Enum):
     SESSION_STARTED = "session_started"
@@ -39,7 +43,7 @@ class TradeEvent(Base):
     instrument: Mapped[str] = mapped_column(String(32), default="NIFTY", nullable=False)
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
     ingested_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
+        DateTime(timezone=True), default=lambda: datetime.now(UTC), nullable=False
     )
     side: Mapped[str | None] = mapped_column(String(8), nullable=True)
     quantity: Mapped[Decimal | None] = mapped_column(Numeric(14, 4), nullable=True)

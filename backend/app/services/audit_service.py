@@ -1,7 +1,10 @@
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.models.audit import AuditRecord
+
 
 class AuditService:
     @staticmethod
@@ -18,7 +21,7 @@ class AuditService:
             entity_type=entity_type,
             entity_id=entity_id,
             action=action,
-            timestamp=datetime.now(timezone.utc),
+            timestamp=datetime.now(UTC),
             actor=actor,
             details=details or {},
             engine_version=engine_version

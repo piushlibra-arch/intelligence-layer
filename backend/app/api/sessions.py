@@ -1,15 +1,13 @@
 import uuid
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database import get_db
+
 from app.auth.security import require_api_key
+from app.database import get_db
 from app.models.session import TradingSession
-from app.schemas.sessions import (
-    SessionCreateRequest,
-    TradingSessionResponse,
-    SessionStateResponse
-)
+from app.schemas.sessions import SessionCreateRequest, SessionStateResponse, TradingSessionResponse
 from app.services.session_service import SessionService
 
 router = APIRouter(prefix="/sessions", tags=["sessions"])

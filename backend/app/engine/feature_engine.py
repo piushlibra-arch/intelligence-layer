@@ -1,13 +1,15 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from typing import NamedTuple
-from app.models.event import TradeEvent, EventType
+
+from app.models.event import EventType, TradeEvent
 from app.schemas.features import SignalResult
+
 
 def ensure_utc(dt: datetime) -> datetime:
     if dt.tzinfo is None:
-        return dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        return dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 class PostLossReentryResult(NamedTuple):
     reentry_seconds: Decimal | None

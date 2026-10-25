@@ -1,8 +1,10 @@
 from decimal import Decimal
 from typing import NamedTuple
-from app.models.risk import RiskBand, ConfidenceLevel
-from app.schemas.features import SignalResult
+
 from app.engine.baseline_engine import TraderBaseline
+from app.models.risk import ConfidenceLevel, RiskBand
+from app.schemas.features import SignalResult
+
 
 class RiskAssessmentResult(NamedTuple):
     risk_score: Decimal

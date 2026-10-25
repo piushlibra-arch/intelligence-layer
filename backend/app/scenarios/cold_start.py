@@ -1,8 +1,10 @@
-from datetime import datetime, timezone, timedelta
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
+
 from app.models.event import EventType
-from app.schemas.events import EventIngestRequest
 from app.scenarios.base import BaseScenario, ScenarioTraderConfig
+from app.schemas.events import EventIngestRequest
+
 
 class ColdStartScenario(BaseScenario):
     @property
@@ -35,7 +37,7 @@ class ColdStartScenario(BaseScenario):
         )
 
     def generate_events(self, base_time: datetime | None = None) -> list[EventIngestRequest]:
-        t0 = base_time or datetime.now(timezone.utc) - timedelta(minutes=25)
+        t0 = base_time or datetime.now(UTC) - timedelta(minutes=25)
         events: list[EventIngestRequest] = []
 
         events.append(EventIngestRequest(

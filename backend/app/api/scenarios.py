@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database import get_db
+
 from app.auth.security import require_api_key
-from app.scenarios import list_scenarios, get_scenario
+from app.database import get_db
+from app.scenarios import get_scenario, list_scenarios
 from app.schemas.evaluation import ScenarioMetadata
 from app.services.replay_service import ReplayService
-from app.schemas.events import EventIngestRequest
 
 router = APIRouter(prefix="/scenarios", tags=["scenarios"])
 

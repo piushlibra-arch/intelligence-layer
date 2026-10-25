@@ -1,10 +1,14 @@
-import uuid
-from datetime import datetime, timezone
-from decimal import Decimal
 import enum
-from sqlalchemy import Numeric, DateTime, ForeignKey, String, Text, Boolean, JSON, Enum as SQLEnum, Index
+import uuid
+from datetime import UTC, datetime
+from decimal import Decimal
+
+from sqlalchemy import JSON, Boolean, DateTime, ForeignKey, Index, Numeric, String, Text
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.database import Base
+
 
 class RiskBand(str, enum.Enum):
     NORMAL = "normal"
@@ -25,7 +29,7 @@ class RiskAssessment(Base):
     trader_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trader_profiles.id"), index=True, nullable=False)
     feature_snapshot_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("behavioural_feature_snapshots.id"), nullable=True)
     assessed_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
+        DateTime(timezone=True), default=lambda: datetime.now(UTC), nullable=False
     )
     risk_score: Mapped[Decimal] = mapped_column(Numeric(5, 2), nullable=False)  # 0.00 to 100.00
     risk_band: Mapped[RiskBand] = mapped_column(

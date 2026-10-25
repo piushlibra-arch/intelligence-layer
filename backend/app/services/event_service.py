@@ -1,22 +1,23 @@
-from datetime import datetime, timezone
-from decimal import Decimal
 import uuid
+from datetime import UTC, datetime
+
+from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import HTTPException, status
 
-from app.models.event import TradeEvent, EventType, ProcessingStatus
-from app.models.session import TradingSession, SessionStatus
-from app.models.trader import TraderProfile
-from app.models.feature import BehaviouralFeatureSnapshot
-from app.models.risk import RiskAssessment
-from app.models.intervention import InterventionDecision
-from app.schemas.events import EventIngestRequest, TradeEventResponse, EventIngestResponse
-from app.engine.feature_engine import FeatureEngine
 from app.engine.baseline_engine import BaselineEngine
-from app.engine.risk_engine import RiskEngine
+from app.engine.feature_engine import FeatureEngine
 from app.engine.intervention_engine import InterventionEngine
+from app.engine.risk_engine import RiskEngine
+from app.models.event import EventType, ProcessingStatus, TradeEvent
+from app.models.feature import BehaviouralFeatureSnapshot
+from app.models.intervention import InterventionDecision
+from app.models.risk import RiskAssessment
+from app.models.session import SessionStatus, TradingSession
+from app.models.trader import TraderProfile
+from app.schemas.events import EventIngestRequest, EventIngestResponse, TradeEventResponse
 from app.services.audit_service import AuditService
+
 
 class EventService:
     @staticmethod
@@ -70,7 +71,7 @@ class EventService:
             event_type=request.event_type,
             instrument=request.instrument,
             timestamp=request.timestamp,
-            ingested_at=datetime.now(timezone.utc),
+            ingested_at=datetime.now(UTC),
             side=request.side,
             quantity=request.quantity,
             price=request.price,
@@ -163,7 +164,7 @@ class EventService:
         feat_snap = BehaviouralFeatureSnapshot(
             session_id=session_id,
             trader_id=trading_session.trader_id,
-            computed_at=datetime.now(timezone.utc),
+            computed_at=datetime.now(UTC),
             post_loss_reentry_seconds=f_reentry.reentry_seconds,
             baseline_reentry_seconds=f_reentry.baseline_seconds,
             position_size_current=f_size.current_quantity,
@@ -188,7 +189,7 @@ class EventService:
             session_id=session_id,
             trader_id=trading_session.trader_id,
             feature_snapshot_id=feat_snap.id,
-            assessed_at=datetime.now(timezone.utc),
+            assessed_at=datetime.now(UTC),
             risk_score=risk_res.risk_score,
             risk_band=risk_res.risk_band,
             triggered_signals=[sig.model_dump() for sig in risk_res.triggered_signals],
@@ -209,7 +210,7 @@ class EventService:
             assessment_id=risk_assessment.id,
             session_id=session_id,
             trader_id=trading_session.trader_id,
-            decided_at=datetime.now(timezone.utc),
+            decided_at=datetime.now(UTC),
             action_type=intervention_res.action_type,
             action_details=intervention_res.action_details,
             is_simulated=intervention_res.is_simulated,

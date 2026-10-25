@@ -1,12 +1,14 @@
 import uuid
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.database import get_db
-from app.models.trader import TraderProfile
-from app.models.session import TradingSession
-from app.schemas.baselines import BaselineInfoResponse, TraderProfileResponse
 from app.engine.baseline_engine import BaselineEngine
+from app.models.session import TradingSession
+from app.models.trader import TraderProfile
+from app.schemas.baselines import BaselineInfoResponse, TraderProfileResponse
 
 router = APIRouter(tags=["baselines"])
 

@@ -1,10 +1,14 @@
-import uuid
-from datetime import datetime, timezone
-from decimal import Decimal
 import enum
-from sqlalchemy import Numeric, DateTime, ForeignKey, String, Text, Boolean, JSON, Enum as SQLEnum, Index
+import uuid
+from datetime import UTC, datetime
+from decimal import Decimal
+
+from sqlalchemy import JSON, Boolean, DateTime, ForeignKey, Index, Numeric, String, Text
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.database import Base
+
 
 class ActionType(str, enum.Enum):
     MONITOR = "monitor"
@@ -29,7 +33,7 @@ class InterventionPolicy(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     version: Mapped[str] = mapped_column(String(16), default="1.0", nullable=False)
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
+        DateTime(timezone=True), default=lambda: datetime.now(UTC), nullable=False
     )
 
 class InterventionDecision(Base):
@@ -41,7 +45,7 @@ class InterventionDecision(Base):
     session_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trading_sessions.id"), index=True, nullable=False)
     trader_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trader_profiles.id"), index=True, nullable=False)
     decided_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
+        DateTime(timezone=True), default=lambda: datetime.now(UTC), nullable=False
     )
     action_type: Mapped[ActionType] = mapped_column(
         SQLEnum(ActionType, values_callable=lambda x: [e.value for e in x]),

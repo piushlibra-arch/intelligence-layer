@@ -1,20 +1,23 @@
 import hashlib
-from datetime import datetime, timezone
-from decimal import Decimal
 import statistics
 import uuid
+from datetime import UTC, datetime
+from decimal import Decimal
 from typing import NamedTuple
+
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.models.session import TradingSession, SessionStatus
-from app.models.event import TradeEvent, EventType
+
+from app.models.event import EventType, TradeEvent
 from app.models.risk import ConfidenceLevel
-from app.schemas.baselines import BaselineInfoResponse, BaselineFeatureStats
+from app.models.session import SessionStatus, TradingSession
+from app.schemas.baselines import BaselineFeatureStats, BaselineInfoResponse
+
 
 def ensure_utc(dt: datetime) -> datetime:
     if dt.tzinfo is None:
-        return dt.replace(tzinfo=timezone.utc)
-    return dt.astimezone(timezone.utc)
+        return dt.replace(tzinfo=UTC)
+    return dt.astimezone(UTC)
 
 class TraderBaseline(NamedTuple):
     trader_id: uuid.UUID
@@ -143,7 +146,7 @@ class BaselineEngine:
             historical_sessions_count=count,
             confidence=confidence,
             data_sufficiency=data_sufficiency,
-            is_cold_start=False,
+            is_cold_start=is_cold_start,
             baseline_version=baseline_version,
             reentry_seconds=median_reentry,
             position_size=median_position,

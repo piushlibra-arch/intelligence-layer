@@ -1,0 +1,27 @@
+[project]
+name = "adaptive-trader-risk-intelligence"
+version = "1.0.0"
+description = "Behavioral risk intelligence prototype for trading platforms"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "B008",   # do not perform function call in argument defaults (FastAPI Depends)
+    "UP042",  # inherit from StrEnum (keep str, enum.Enum for SQLAlchemy SQLEnum compatibility)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"alembic/*" = ["F401"]
+"app/models/*" = ["F401", "F821"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]

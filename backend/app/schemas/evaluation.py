@@ -1,7 +1,7 @@
-from datetime import datetime
-import uuid
 from pydantic import BaseModel
+
 from app.models.risk import RiskBand
+
 
 class EvaluationScenarioResult(BaseModel):
     scenario_id: str

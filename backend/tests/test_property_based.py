@@ -1,10 +1,13 @@
-from decimal import Decimal
 import uuid
-from hypothesis import given, strategies as st
-from app.models.risk import RiskBand, ConfidenceLevel
-from app.schemas.features import SignalResult
+from decimal import Decimal
+
+from hypothesis import given
+from hypothesis import strategies as st
+
 from app.engine.baseline_engine import TraderBaseline
 from app.engine.risk_engine import RiskEngine
+from app.models.risk import ConfidenceLevel, RiskBand
+from app.schemas.features import SignalResult
 
 signal_names = ["post_loss_reentry", "position_size_escalation", "trade_frequency", "consecutive_losses", "profit_giveback", "combined_deviation"]
 severities = ["low", "medium", "high"]

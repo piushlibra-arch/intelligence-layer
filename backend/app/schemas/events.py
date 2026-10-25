@@ -1,8 +1,11 @@
+import uuid
 from datetime import datetime
 from decimal import Decimal
-import uuid
-from pydantic import BaseModel, Field, field_validator, model_validator, ConfigDict
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
 from app.models.event import EventType, ProcessingStatus
+
 
 class EventIngestRequest(BaseModel):
     event_id: str = Field(..., min_length=1, max_length=128, description="Unique ID for event in source system")

@@ -1,9 +1,12 @@
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
-from sqlalchemy import Numeric, Integer, DateTime, ForeignKey, String, Index
+
+from sqlalchemy import DateTime, ForeignKey, Index, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.database import Base
+
 
 class BehaviouralFeatureSnapshot(Base):
     __tablename__ = "behavioural_feature_snapshots"
@@ -13,7 +16,7 @@ class BehaviouralFeatureSnapshot(Base):
     trader_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trader_profiles.id"), index=True, nullable=False)
     assessment_id: Mapped[uuid.UUID | None] = mapped_column(ForeignKey("risk_assessments.id", use_alter=True), nullable=True)
     computed_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
+        DateTime(timezone=True), default=lambda: datetime.now(UTC), nullable=False
     )
     
     # Feature 1: Post-loss re-entry latency

@@ -1,9 +1,9 @@
 from app.scenarios.base import BaseScenario
-from app.scenarios.normal_trading import NormalTradingScenario
-from app.scenarios.escalating_risk import EscalatingRiskScenario
-from app.scenarios.high_frequency import HighFrequencyScenario
 from app.scenarios.cold_start import ColdStartScenario
 from app.scenarios.data_integrity import DataIntegrityScenario
+from app.scenarios.escalating_risk import EscalatingRiskScenario
+from app.scenarios.high_frequency import HighFrequencyScenario
+from app.scenarios.normal_trading import NormalTradingScenario
 from app.schemas.evaluation import ScenarioMetadata
 
 SCENARIO_REGISTRY: dict[str, BaseScenario] = {

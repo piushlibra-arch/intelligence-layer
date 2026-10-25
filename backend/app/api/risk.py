@@ -1,11 +1,13 @@
 import uuid
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.database import get_db
 from app.models.risk import RiskAssessment
-from app.schemas.risk import RiskAssessmentResponse
 from app.schemas.features import SignalResult
+from app.schemas.risk import RiskAssessmentResponse
 
 router = APIRouter(prefix="/sessions", tags=["risk"])
 

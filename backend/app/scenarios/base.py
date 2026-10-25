@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from decimal import Decimal
-import uuid
 from typing import NamedTuple
-from app.models.event import EventType
+
 from app.schemas.events import EventIngestRequest
+
 
 class ScenarioTraderConfig(NamedTuple):
     external_id: str

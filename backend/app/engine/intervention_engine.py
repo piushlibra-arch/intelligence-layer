@@ -1,7 +1,9 @@
 from decimal import Decimal
 from typing import NamedTuple
-from app.models.risk import RiskBand, ConfidenceLevel
+
 from app.models.intervention import ActionType
+from app.models.risk import ConfidenceLevel, RiskBand
+
 
 class InterventionResult(NamedTuple):
     action_type: ActionType

@@ -1,11 +1,13 @@
-from decimal import Decimal
 import uuid
-from app.models.risk import RiskBand, ConfidenceLevel
-from app.models.intervention import ActionType
-from app.schemas.features import SignalResult
+from decimal import Decimal
+
 from app.engine.baseline_engine import TraderBaseline
-from app.engine.risk_engine import RiskEngine
 from app.engine.intervention_engine import InterventionEngine
+from app.engine.risk_engine import RiskEngine
+from app.models.intervention import ActionType
+from app.models.risk import ConfidenceLevel, RiskBand
+from app.schemas.features import SignalResult
+
 
 def test_risk_score_determinism_and_bands():
     baseline = TraderBaseline(

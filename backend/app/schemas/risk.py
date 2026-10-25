@@ -1,8 +1,11 @@
-from datetime import datetime
 import uuid
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict
-from app.models.risk import RiskBand, ConfidenceLevel
+
+from app.models.risk import ConfidenceLevel, RiskBand
 from app.schemas.features import SignalResult
+
 
 class RiskAssessmentResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)

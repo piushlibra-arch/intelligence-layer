@@ -1,15 +1,14 @@
-from datetime import datetime, timezone
 import uuid
+from datetime import UTC, datetime
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database import get_db
+
 from app.auth.security import require_api_key
+from app.database import get_db
 from app.models.intervention import InterventionDecision
-from app.schemas.interventions import (
-    InterventionDecisionResponse,
-    InterventionAcknowledgeRequest
-)
+from app.schemas.interventions import InterventionAcknowledgeRequest, InterventionDecisionResponse
 
 router = APIRouter(tags=["interventions"])
 
@@ -39,7 +38,7 @@ async def acknowledge_intervention(
         raise HTTPException(status_code=404, detail="Intervention decision not found")
 
     decision.acknowledged = req.acknowledged
-    decision.acknowledged_at = datetime.now(timezone.utc)
+    decision.acknowledged_at = datetime.now(UTC)
     await db.commit()
     await db.refresh(decision)
     return InterventionDecisionResponse.model_validate(decision)

@@ -1,10 +1,14 @@
-import uuid
-from datetime import datetime, timezone
-from decimal import Decimal
-from sqlalchemy import String, Numeric, Boolean, DateTime, ForeignKey, Enum as SQLEnum
-from sqlalchemy.orm import Mapped, mapped_column, relationship
 import enum
+import uuid
+from datetime import UTC, datetime
+from decimal import Decimal
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, Numeric, String
+from sqlalchemy import Enum as SQLEnum
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.database import Base
+
 
 class SessionStatus(str, enum.Enum):
     ACTIVE = "active"
@@ -18,7 +22,7 @@ class TradingSession(Base):
     trader_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trader_profiles.id"), index=True, nullable=False)
     scenario_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     started_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
+        DateTime(timezone=True), default=lambda: datetime.now(UTC), nullable=False
     )
     ended_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     status: Mapped[SessionStatus] = mapped_column(

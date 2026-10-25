@@ -1,11 +1,13 @@
 import uuid
-from fastapi import APIRouter, Depends, HTTPException, status
+
+from fastapi import APIRouter, Depends, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database import get_db
+
 from app.auth.security import require_api_key
+from app.database import get_db
 from app.models.event import TradeEvent
-from app.schemas.events import EventIngestRequest, TradeEventResponse, EventIngestResponse
+from app.schemas.events import EventIngestRequest, EventIngestResponse, TradeEventResponse
 from app.services.event_service import EventService
 
 router = APIRouter(prefix="/sessions", tags=["events"])

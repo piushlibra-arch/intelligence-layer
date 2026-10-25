@@ -1,10 +1,13 @@
-from datetime import datetime
 import uuid
-from pydantic import BaseModel, Field, ConfigDict
+from datetime import datetime
+
+from pydantic import BaseModel, ConfigDict
+
 from app.models.session import SessionStatus
 from app.schemas.features import FeatureSnapshotResponse
-from app.schemas.risk import RiskAssessmentResponse
 from app.schemas.interventions import InterventionDecisionResponse
+from app.schemas.risk import RiskAssessmentResponse
+
 
 class SessionCreateRequest(BaseModel):
     trader_id: uuid.UUID

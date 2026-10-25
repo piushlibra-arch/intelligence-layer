@@ -1,14 +1,15 @@
-from decimal import Decimal
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.scenarios import SCENARIO_REGISTRY
-from app.services.replay_service import ReplayService
-from app.services.event_service import EventService
-from app.schemas.evaluation import (
-    EvaluationSummaryResponse,
-    EvaluationScenarioResult,
-    DataIntegritySummary
-)
+
 from app.models.risk import RiskBand
+from app.scenarios import SCENARIO_REGISTRY
+from app.schemas.evaluation import (
+    DataIntegritySummary,
+    EvaluationScenarioResult,
+    EvaluationSummaryResponse,
+)
+from app.services.event_service import EventService
+from app.services.replay_service import ReplayService
+
 
 class EvaluationEngine:
     @classmethod

@@ -1,10 +1,11 @@
-from datetime import datetime, timezone, timedelta
-from decimal import Decimal
 import uuid
-import pytest
-from app.models.event import TradeEvent, EventType, ProcessingStatus
+from datetime import UTC, datetime, timedelta
+from decimal import Decimal
+
 from app.engine.feature_engine import FeatureEngine
+from app.models.event import EventType, ProcessingStatus, TradeEvent
 from app.schemas.features import SignalResult
+
 
 def make_event(ev_type: EventType, ts: datetime, pnl: Decimal | None = None, qty: Decimal | None = None) -> TradeEvent:
     return TradeEvent(
@@ -24,7 +25,7 @@ def make_event(ev_type: EventType, ts: datetime, pnl: Decimal | None = None, qty
     )
 
 def test_post_loss_reentry_calculation():
-    t0 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=UTC)
     # Loss at 10:05:00
     e1 = make_event(EventType.TRADE_CLOSED, t0 + timedelta(minutes=5), pnl=Decimal("-1000.00"))
     # Re-entry at 10:05:15 (15 seconds later)
@@ -38,7 +39,7 @@ def test_post_loss_reentry_calculation():
     assert res.signal.severity == "high"
 
 def test_post_loss_reentry_normal():
-    t0 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=UTC)
     e1 = make_event(EventType.TRADE_CLOSED, t0 + timedelta(minutes=5), pnl=Decimal("-1000.00"))
     e2 = make_event(EventType.ORDER_SUBMITTED, t0 + timedelta(minutes=6, seconds=30))  # 90s later
 
@@ -66,7 +67,7 @@ def test_position_size_normal():
     assert res.signal.triggered is False
 
 def test_trade_frequency_escalation():
-    t0 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=UTC)
     # 8 orders within 30 min window vs baseline of 3
     events = [
         make_event(EventType.ORDER_SUBMITTED, t0 + timedelta(minutes=i*3))
@@ -78,7 +79,7 @@ def test_trade_frequency_escalation():
     assert res.signal.triggered is True
 
 def test_consecutive_losses():
-    t0 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 1, 1, 10, 0, 0, tzinfo=UTC)
     events = [
         make_event(EventType.TRADE_CLOSED, t0 + timedelta(minutes=1), pnl=Decimal("500.00")),
         make_event(EventType.TRADE_CLOSED, t0 + timedelta(minutes=2), pnl=Decimal("-400.00")),

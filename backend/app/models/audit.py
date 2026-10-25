@@ -1,8 +1,11 @@
 import uuid
-from datetime import datetime, timezone
-from sqlalchemy import DateTime, String, JSON, Index
+from datetime import UTC, datetime
+
+from sqlalchemy import JSON, DateTime, Index, String
 from sqlalchemy.orm import Mapped, mapped_column
+
 from app.database import Base
+
 
 class AuditRecord(Base):
     __tablename__ = "audit_records"
@@ -12,7 +15,7 @@ class AuditRecord(Base):
     entity_id: Mapped[uuid.UUID] = mapped_column(index=True, nullable=False)
     action: Mapped[str] = mapped_column(String(64), nullable=False)
     timestamp: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False, index=True
+        DateTime(timezone=True), default=lambda: datetime.now(UTC), nullable=False, index=True
     )
     actor: Mapped[str] = mapped_column(String(64), default="system", nullable=False)
     details: Mapped[dict] = mapped_column(JSON, default=dict, nullable=False)

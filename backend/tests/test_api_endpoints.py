@@ -1,6 +1,6 @@
-from datetime import datetime, timezone
 import pytest
 from httpx import AsyncClient
+
 
 @pytest.mark.asyncio
 async def test_health_and_readiness(client: AsyncClient):

@@ -1,24 +1,20 @@
-import asyncio
-from datetime import datetime, timezone
-from decimal import Decimal
 import os
 import sys
+from decimal import Decimal
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-import pytest
 import pytest_asyncio
-from httpx import AsyncClient, ASGITransport
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from httpx import ASGITransport, AsyncClient
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 # Override settings before app imports
 os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///:memory:"
 os.environ["API_KEY"] = "test-api-key-12345"
 
-from app.config import settings
 from app.database import Base, get_db
 from app.main import app
+from app.models.session import SessionStatus, TradingSession
 from app.models.trader import TraderProfile
-from app.models.session import TradingSession, SessionStatus
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 

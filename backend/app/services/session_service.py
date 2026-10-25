@@ -1,20 +1,21 @@
 import uuid
 from decimal import Decimal
+
+from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import HTTPException, status
 
-from app.models.session import TradingSession, SessionStatus
-from app.models.trader import TraderProfile
-from app.models.event import TradeEvent, ProcessingStatus
+from app.models.event import ProcessingStatus, TradeEvent
 from app.models.feature import BehaviouralFeatureSnapshot
-from app.models.risk import RiskAssessment
 from app.models.intervention import InterventionDecision
-from app.schemas.sessions import TradingSessionResponse, SessionStateResponse
-from app.schemas.features import FeatureSnapshotResponse
-from app.schemas.risk import RiskAssessmentResponse
+from app.models.risk import RiskAssessment
+from app.models.session import SessionStatus, TradingSession
+from app.models.trader import TraderProfile
+from app.schemas.features import FeatureSnapshotResponse, SignalResult
 from app.schemas.interventions import InterventionDecisionResponse
-from app.schemas.features import SignalResult
+from app.schemas.risk import RiskAssessmentResponse
+from app.schemas.sessions import SessionStateResponse, TradingSessionResponse
+
 
 class SessionService:
     @staticmethod

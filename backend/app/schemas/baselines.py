@@ -1,5 +1,7 @@
 import uuid
+
 from pydantic import BaseModel, ConfigDict
+
 
 class BaselineFeatureStats(BaseModel):
     avg_reentry_seconds: float | None = None

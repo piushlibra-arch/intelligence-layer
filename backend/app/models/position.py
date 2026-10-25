@@ -1,9 +1,12 @@
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from decimal import Decimal
-from sqlalchemy import String, Numeric, DateTime, ForeignKey, Index
+
+from sqlalchemy import DateTime, ForeignKey, Index, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column
+
 from app.database import Base
+
 
 class PositionSnapshot(Base):
     __tablename__ = "position_snapshots"
@@ -18,7 +21,7 @@ class PositionSnapshot(Base):
     current_price: Mapped[Decimal | None] = mapped_column(Numeric(14, 4), nullable=True)
     unrealized_pnl: Mapped[Decimal] = mapped_column(Numeric(14, 2), default=Decimal("0.00"), nullable=False)
     snapshot_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
+        DateTime(timezone=True), default=lambda: datetime.now(UTC), nullable=False
     )
 
     __table_args__ = (
