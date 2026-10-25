@@ -33,7 +33,9 @@ export const healthCheck = () => api.get('/health');
 export const getScenarios = () => api.get<Scenario[]>('/scenarios');
 export const getScenario = (id: string) => api.get<Scenario>(`/scenarios/${id}`);
 export const startReplay = (scenarioId: string) =>
-  api.post<{ session_id: string }>(`/scenarios/${scenarioId}/replay`);
+  api.post<{ session_id: string; scenario_id: string; trader_id: string; total_events: number; events: TradeEvent[] }>(
+    `/scenarios/${scenarioId}/replay`
+  );
 export const getSessions = () => api.get<TradingSession[]>('/sessions');
 export const getSession = (id: string) => api.get<TradingSession>(`/sessions/${id}`);
 export const getSessionState = (id: string) => api.get<SessionState>(`/sessions/${id}/state`);

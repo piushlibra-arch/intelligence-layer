@@ -172,6 +172,7 @@ export interface SessionState {
 export interface ReplayState {
   session_id: string;
   scenario_id: string;
+  trader_id?: string;
   total_events: number;
   current_index: number;
   is_playing: boolean;

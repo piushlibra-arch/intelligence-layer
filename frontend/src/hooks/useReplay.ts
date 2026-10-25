@@ -19,6 +19,7 @@ import type {
 const INITIAL_STATE: ReplayState = {
   session_id: '',
   scenario_id: '',
+  trader_id: '',
   total_events: 0,
   current_index: 0,
   is_playing: false,
@@ -63,16 +64,18 @@ export function useReplay() {
       const scenarioRes = await getScenario(scenarioId);
       setScenarioInfo(scenarioRes.data);
 
-      // Start replay - returns session_id and events
+      // Start replay - returns session_id, trader_id and events
       const res = await startReplay(scenarioId);
       const sessionId = res.data.session_id;
-      const events = (res.data as Record<string, unknown>).events as TradeEvent[] | undefined;
+      const traderId = res.data.trader_id;
+      const events = res.data.events as TradeEvent[] | undefined;
 
       setScenarioEvents(events || []);
       setState({
         ...INITIAL_STATE,
         session_id: sessionId,
         scenario_id: scenarioId,
+        trader_id: traderId,
         total_events: events?.length || scenarioRes.data.event_count,
         events: [],
       });

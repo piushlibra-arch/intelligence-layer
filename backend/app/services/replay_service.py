@@ -66,7 +66,13 @@ class ReplayService:
 
         # 4. Generate events with timestamps relative to now
         events = scenario.generate_events(base_time=now)
-        return new_session, events
+        # Prefix event_id with session_id prefix to ensure uniqueness across replay sessions
+        session_prefix = str(new_session.id)[:8]
+        unique_events = [
+            e.model_copy(update={"event_id": f"{e.event_id}_{session_prefix}"})
+            for e in events
+        ]
+        return new_session, unique_events
 
     @classmethod
     async def _seed_historical_sessions(

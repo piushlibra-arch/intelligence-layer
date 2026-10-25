@@ -48,9 +48,10 @@ export const SessionReplay: React.FC = () => {
   // Fetch baseline for current trader
   useEffect(() => {
     async function fetchTraderBaseline() {
-      if (state.events.length > 0 && state.events[0].trader_id) {
+      const traderId = state.trader_id || (state.events.length > 0 ? state.events[0].trader_id : null);
+      if (traderId) {
         try {
-          const res = await getBaseline(state.events[0].trader_id);
+          const res = await getBaseline(traderId);
           setBaselineInfo(res.data);
         } catch {
           setBaselineInfo(null);
@@ -58,7 +59,7 @@ export const SessionReplay: React.FC = () => {
       }
     }
     fetchTraderBaseline();
-  }, [state.events]);
+  }, [state.trader_id, state.events]);
 
   const handleScenarioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newId = e.target.value;
