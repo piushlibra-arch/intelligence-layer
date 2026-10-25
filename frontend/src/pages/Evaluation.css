@@ -1,0 +1,145 @@
+.evaluation-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.calc-title-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.calc-disclaimer {
+  font-size: 0.75rem;
+  color: var(--accent-yellow);
+  margin-top: 4px;
+}
+
+.text-accent {
+  color: var(--accent-blue);
+  margin-top: 2px;
+}
+
+.calculator-body {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .calculator-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.calculator-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.calc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calc-field label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.calc-input {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: var(--font-mono, monospace);
+  outline: none;
+}
+
+.calc-slider {
+  accent-color: var(--accent-blue);
+  cursor: pointer;
+}
+
+.slider-val {
+  font-size: 0.8rem;
+  color: var(--accent-blue);
+  font-family: var(--font-mono, monospace);
+  font-weight: 600;
+}
+
+.calculator-output-box {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.output-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.output-val {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--accent-green);
+  font-family: var(--font-mono, monospace);
+  margin: 12px 0 8px;
+}
+
+.output-note {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 360px;
+}
+
+.limitations-list {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.limitation-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.lim-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-yellow);
+  margin-top: 8px;
+  flex-shrink: 0;
+}

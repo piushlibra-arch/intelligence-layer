@@ -1,0 +1,56 @@
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: background 0.2s;
+}
+
+.metric-card:hover {
+  background: var(--bg-card-hover);
+}
+
+.metric-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.metric-card__label {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.metric-card__icon {
+  color: var(--text-muted);
+}
+
+.metric-card__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  line-height: 1.2;
+}
+
+.metric-card--blue .metric-card__value { color: var(--accent-blue); }
+.metric-card--green .metric-card__value { color: var(--accent-green); }
+.metric-card--yellow .metric-card__value { color: var(--accent-yellow); }
+.metric-card--red .metric-card__value { color: var(--accent-red); }
+.metric-card--purple .metric-card__value { color: var(--accent-purple); }
+
+.metric-card__trend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.metric-card__trend--up { color: var(--accent-green); }
+.metric-card__trend--down { color: var(--accent-red); }
+.metric-card__trend--flat { color: var(--text-muted); }

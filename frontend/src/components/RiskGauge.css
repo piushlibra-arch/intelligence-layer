@@ -1,0 +1,28 @@
+.risk-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  user-select: none;
+}
+
+.risk-gauge__score {
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+}
+
+.risk-gauge__label {
+  font-size: 0.85rem;
+  fill: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.risk-gauge__band {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
